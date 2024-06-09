@@ -1,25 +1,30 @@
-import './App.css';
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import io from "socket.io-client";
 
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect("http://localhost:3000");
 
 function App() {
+
+const [message,setmessage]= useState("")
   useEffect(() => {
     socket.on("connect", () => {
       console.log(`New user with id of ${socket.id} connected`);
     });
-
-    return () => {
-      socket.disconnect(); // Clean up by disconnecting the socket when the component unmounts
-    };
+  
   }, []);
+
+  function handlechange(){
+    socket.emit('send_message',(message)=>{
+
+    })
+  }
 
   return (
     <div className="App">
-      <h3>Hello this is a chat application</h3>
+      <h3>Hello, this is a chat application</h3>
       <form>
-        <input type="text" />
+        <input type="text"  onVolumeChange={handlechange}/>
         <button type='submit'>Send message</button>
       </form>
     </div>
