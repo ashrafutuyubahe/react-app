@@ -3,6 +3,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 
+
 const PORT = process.env.PORT || 3000;
 const app = express();
 const server = http.createServer(app);
@@ -20,6 +21,9 @@ io.on("connect", (socket) => {
     console.log(`User with id ${socket.id} connected`);
 });
 
+io.on('send_message',(message)=>{ 
+  io.broadcast.emit('receive_message',{message});
+})
 
 
 
